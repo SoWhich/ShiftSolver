@@ -5,14 +5,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef enum {noZero, version, topN, noKey} Flags;
+typedef enum {version, noKey, help} Flags;
 
 typedef struct {
 	int * noCheck;
 	int numNoCheck;
 	bool * flagCheck;
 	char * fileName;
-	int topN;
 } Inputs;
 
 Inputs * parseInput(int, char **);

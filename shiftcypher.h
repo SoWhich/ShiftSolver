@@ -8,6 +8,6 @@ char * shiftCypher(char *, int);
 
 double * lettFreq(char *);
 
-int probableKey(char *);
+int probableKey(char *, int *, int);
 
 #endif

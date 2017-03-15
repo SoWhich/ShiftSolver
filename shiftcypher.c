@@ -34,7 +34,7 @@ double * lettFreq(char * cryptDat)
 	return freq;
 }
 
-int probableKey(char * cryptDat)
+int probableKey(char * cryptDat, int * nogo, int numnogo)
 {
 	double * freq = lettFreq(cryptDat);
 	long numletts = 0;
@@ -46,12 +46,20 @@ int probableKey(char * cryptDat)
 	int maxkey = -1;
 	int total = -1;
 	for(int i = 0; i < ALPHABETSIZE; i++) {
-		int temptotal = 0;
-		for(int j = 0; j < ALPHABETSIZE; j++)
-			temptotal += trueFreq[(j + i) % 26] * freq[j];
-		if (temptotal > total) {
-			total = temptotal;
-			maxkey = i;
+		int go = 1;
+		if(nogo) {
+			for(int j = 0; j < numnogo; j++)
+				if(i == nogo[j])
+					go = 0;
+		}
+		if (go) {
+			int temptotal = 0;
+			for(int j = 0; j < ALPHABETSIZE; j++)
+				temptotal += trueFreq[(j + i) % 26] * freq[j];
+			if (temptotal > total) {
+				total = temptotal;
+				maxkey = i;
+			}
 		}
 	}
 	free(freq);

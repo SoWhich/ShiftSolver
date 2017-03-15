@@ -3,27 +3,79 @@
 Inputs * parseInput(int numArgs, char ** Args)
 {
 	Inputs * input = malloc(sizeof(Inputs));
-	input->flagCheck = malloc(sizeof(bool) * 4);
+
+	if (!input) {
+		return NULL;
+	}
+
+	input->flagCheck = malloc(sizeof(bool) * 3);
+
+	if (!input->flagCheck) {
+		return NULL;
+	}
+
+	for (int i = 0; i < 3; i++)
+		input->flagCheck[i] = false;
+
+
 	for (int i = 0; i < numArgs; i++) {
 		if (Args[i][0] != '-') {
-			if (!input->fileName)
+			if (!input->fileName) {
 				input->fileName = Args[i];
+			} else if (input->flagCheck[noKey]) {
+				int holder = 0;
+				for (int j = 0; Args[i][j] != '0'; j++)
+
+					if (Args[i][j] >= '0' && Args[i][j] <= '9') {
+						holder += Args[i][j] - '0';
+						if (Args[i][j+1] != '0')
+							holder *= 10;
+					} else {
+						printf ("Err. Invalid input");
+						input->flagCheck[help] = true;
+					}
+
+				if (!input->noCheck) {
+					input->noCheck = malloc(sizeof(int));
+					if(!input->noCheck) {
+						free(input->flagCheck);
+						free(input);
+						return NULL;
+					}
+
+					input->noCheck[0] = holder;
+					input->numNoCheck = 1;
+
+				} else {
+					input->numNoCheck++;
+					int * temp = input->noCheck;
+					input->noCheck = malloc(sizeof(int) * input->numNoCheck);
+
+					if(!input->noCheck) {
+						free(temp);
+						free(input->flagCheck);
+						free(input);
+						return NULL;
+					}
+
+					for(int j = 0; j < input->numNoCheck - 1; j++)
+						input->noCheck[j] = temp[j];
+					input->noCheck[input->numNoCheck - 1] = holder;
+					free(temp);
+				}
+			} else {
+				printf ("Err. Invalid input");
+				input->flagCheck[help] = true;
+			}
 		} else if (Args[i][0] == '-') {
 			for (int j = 1; Args[i][j] != '\0'; j++) {
 				switch (Args[i][j])
 				{
-				case 'z':
-					input->flagCheck[noZero] = true;
+				case 'h':
+					input->flagCheck[help] = true;
 					break;
 				case 'v':
 					input->flagCheck[version] = true;
-					break;
-				case 't':
-					input->flagCheck[topN] = true;
-					for (int k = 1; Args[i+k][0] >= '0' && Args[i+k][0] <= '9'; k++) {
-						int p = 0;
-						p++;
-					}
 					break;
 				case 'n':
 					input->flagCheck[noKey] = true;
@@ -34,5 +86,11 @@ Inputs * parseInput(int numArgs, char ** Args)
 			}
 		}
 	}
+
+	if (!input->fileName && !input->flagCheck[version] && !input->flagCheck[help]) {
+		printf ("Err. Invalid input");
+		input->flagCheck[help] = true;
+	}
+
 	return input;
 }
