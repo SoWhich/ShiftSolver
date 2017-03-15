@@ -17,26 +17,32 @@ Inputs * parseInput(int numArgs, char ** Args)
 	for (int i = 0; i < 3; i++)
 		input->flagCheck[i] = false;
 
+	input->fileName = NULL;
+	input->noCheck = NULL;
+	input->numNoCheck = 0;
 
-	for (int i = 0; i < numArgs; i++) {
+	for (int i = 1; i < numArgs; i++) {
 		if (Args[i][0] != '-') {
 			if (!input->fileName) {
 				input->fileName = Args[i];
 			} else if (input->flagCheck[noKey]) {
 				int holder = 0;
-				for (int j = 0; Args[i][j] != '0'; j++)
+				for (int j = 0; Args[i][j] != '\0'; j++) {
 
 					if (Args[i][j] >= '0' && Args[i][j] <= '9') {
 						holder += Args[i][j] - '0';
-						if (Args[i][j+1] != '0')
+						if (Args[i][j+1] != '\0')
 							holder *= 10;
 					} else {
-						printf ("Err. Invalid input");
+						printf ("Err. Invalid input\n");
 						input->flagCheck[help] = true;
+						return input;
 					}
+				}
 
 				if (!input->noCheck) {
 					input->noCheck = malloc(sizeof(int));
+
 					if(!input->noCheck) {
 						free(input->flagCheck);
 						free(input);
@@ -63,9 +69,11 @@ Inputs * parseInput(int numArgs, char ** Args)
 					input->noCheck[input->numNoCheck - 1] = holder;
 					free(temp);
 				}
+
 			} else {
-				printf ("Err. Invalid input");
+				printf ("Err. Invalid input\n");
 				input->flagCheck[help] = true;
+				return input;
 			}
 		} else if (Args[i][0] == '-') {
 			for (int j = 1; Args[i][j] != '\0'; j++) {
@@ -88,8 +96,9 @@ Inputs * parseInput(int numArgs, char ** Args)
 	}
 
 	if (!input->fileName && !input->flagCheck[version] && !input->flagCheck[help]) {
-		printf ("Err. Invalid input");
+		printf ("Err. Invalid input\n");
 		input->flagCheck[help] = true;
+		return input;
 	}
 
 	return input;
