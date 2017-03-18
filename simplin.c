@@ -55,7 +55,8 @@ Inputs * parseInput(int numArgs, char ** Args)
 				} else {
 					input->numNoCheck++;
 					int * temp = input->noCheck;
-					input->noCheck = malloc(sizeof(int) * input->numNoCheck);
+					input->noCheck = malloc(sizeof(int) *
+						input->numNoCheck);
 
 					if(!input->noCheck) {
 						free(temp);
