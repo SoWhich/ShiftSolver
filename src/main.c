@@ -7,9 +7,21 @@
 int main(int argc, char ** argv)
 {
 	Inputs * input;
+
+
+	// i. e. if the only argument is the call of the program itself
 	if(argc == 1) {
 		printf("Err. no arguments given\n");
 		input = malloc(sizeof(Inputs));
+
+		/* if the pointer given is non-null, continue with the help
+		 * flag set
+		 * (the behavior I'm trying to go for is that if the user
+		 * enters an invalid input a help dialogue is presented and
+		 * no error is thrown from the program itself)
+		 * note that no other flags are checked because the help
+		 * flag is the first to be verified
+		 */
 		if(input) {
 			input->flagCheck = malloc(sizeof(bool) * 3);
 			input->flagCheck[help] = true;
