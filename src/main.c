@@ -85,6 +85,7 @@ int main(int argc, char ** argv)
 			free(input->noCheck);
 		free(input->flagCheck);
 		free(input);
+		free(contents);
 		return 0;
 	} else {
 		printf("Err. Memory allocation error");
