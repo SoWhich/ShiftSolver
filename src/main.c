@@ -26,9 +26,10 @@ int main(int argc, char ** argv)
 			input->flagCheck = malloc(sizeof(bool) * 3);
 			input->flagCheck[help] = true;
 		} else {
-			printf("Err. Memory allocation error");
+			fprintf(stderr, "Memory allocation error\n");
 			return -1;
 		}
+
 	} else {
 		input = parseInput(argc, argv);
 	}
@@ -68,11 +69,11 @@ int main(int argc, char ** argv)
 			if (contents) {
 				fread(contents, sizeof(char), (size_t)length, infile);
 			} else {
-				printf("Err. Memory allocation error");
+				fprintf(stderr, "Memory allocation error\n");
 				return -1;
 			}
 		} else {
-			printf("Err. Memory allocation error");
+			fprintf(stderr, "Memory allocation error\n");
 			return -1;
 		}
 
@@ -88,7 +89,7 @@ int main(int argc, char ** argv)
 		free(contents);
 		return 0;
 	} else {
-		printf("Err. Memory allocation error");
+		fprintf(stderr, "Memory allocation error\n");
 		return -1;
 	}
 }

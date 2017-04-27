@@ -34,7 +34,7 @@ Inputs * parseInput(int numArgs, char ** Args)
 						if (Args[i][j+1] != '\0')
 							holder *= 10;
 					} else {
-						printf ("Err. Invalid input\n");
+						fprintf(stderr, "Invalid input\n");
 						input->flagCheck[help] = true;
 						return input;
 					}
@@ -72,7 +72,7 @@ Inputs * parseInput(int numArgs, char ** Args)
 				}
 
 			} else {
-				printf ("Err. Invalid input\n");
+				fprintf(stderr, "Invalid input\n");
 				input->flagCheck[help] = true;
 				return input;
 			}
@@ -97,7 +97,7 @@ Inputs * parseInput(int numArgs, char ** Args)
 	}
 
 	if (!input->fileName && !input->flagCheck[version] && !input->flagCheck[help]) {
-		printf ("Err. Invalid input\n");
+		fprintf(stderr, "Invalid input\n");
 		input->flagCheck[help] = true;
 		return input;
 	}
